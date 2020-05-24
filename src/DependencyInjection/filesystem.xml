@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+<services>
+    <!-- Filesystem -->
+    <service id="Wordpress\DependencyInjection\Adapter\Filesystem\FilesystemFactory">
+        <argument type="tagged" tag="wordpress.filesystem.factory"/>
+        <argument type="tagged" tag="wordpress.filesystem.plugin"/>
+    </service>
+
+    <service class="League\Flysystem\FilesystemInterface" id="wordpress.filesystem.public">
+        <factory service="wordpress\Core\Framework\Adapter\Filesystem\FilesystemFactory" method="factory"/>
+        <argument>%wordpress.filesystem.public%</argument>
+    </service>
+
+    <service class="League\Flysystem\FilesystemInterface" id="wordpress.filesystem.private">
+        <factory service="wordpress\Core\Framework\Adapter\Filesystem\FilesystemFactory" method="factory"/>
+        <argument>%wordpress.filesystem.private%</argument>
+    </service>
+
+    <service class="League\Flysystem\FilesystemInterface" id="wordpress.filesystem.temp">
+        <factory service="wordpress\Core\Framework\Adapter\Filesystem\FilesystemFactory" method="factory"/>
+        <argument>%wordpress.filesystem.temp%</argument>
+    </service>
+
+    <service class="Wordpress\DependencyInjection\Adapter\Filesystem\Adapter\LocalFactory" id="Wordpress\DependencyInjection\Adapter\Filesystem\FilesystemFactory.local">
+        <tag name="wordpress.filesystem.factory"/>
+    </service>
+
+    <service id="Wordpress\DependencyInjection\Adapter\Filesystem\PrefixFilesystem">
+        <argument type="service" id="wordpress.filesystem.public"/>
+        <argument>media</argument>
+    </service>
+
+    <service id="Wordpress\DependencyInjection\Adapter\Filesystem\Plugin\CopyBatch">
+        <tag name="wordpress.filesystem.plugin" />
+    </service>
+</services>
+</container>
