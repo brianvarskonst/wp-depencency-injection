@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ruleset name="Inpsyde Coding Standard">
+    <rule ref="Inpsyde">
+        <exclude name="Inpsyde.CodeQuality.PropertyPerClassLimit.TooMuchProperties" />
+        <exclude name="Inpsyde.CodeQuality.FunctionBodyStart.WrongForMultiLineDeclaration" />
+    </rule>
+    <file>./src</file>
+</ruleset>

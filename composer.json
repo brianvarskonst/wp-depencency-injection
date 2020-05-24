@@ -1,0 +1,27 @@
+{
+    "name": "brianvarskonst/wp-dependency-injection",
+    "description": "WordPress Plugin that implements Symfony Dependency Injection Component",
+    "license": "MIT",
+    "type": "wordpress-plugin",
+    "require": {
+        "php": "^7.4"
+    },
+    "require-dev": {
+        "inpsyde/php-coding-standards": "0.13.4"
+    },
+    "autoload":{
+        "psr-4": {
+            "Wordpress\\DependencyInjection" : "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "classmap-authoritative": true,
+        "sort-packages": true,
+        "platform": {
+            "php": "7.4"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
