@@ -18,12 +18,27 @@ if (! defined('ABSPATH')) {
     return;
 }
 
-if (!class_exists(PluginConfig::class) && !file_exists(__DIR__ . '/vendor/autoload.php')) {
+if (!file_exists(__DIR__ . '/vendor/autoload.php') || !is_readable(__DIR__ . '/vendor/autoload.php')) {
+    $template = '%s: ';
 
+    if (PHP_SAPI !== 'cli') {
+        $template = '<h2>%s</h2>';
+        header('Content-type: text/html; charset=utf-8', true, 503);
+    }
+
+    echo sprintf($template, 'Error');
+    echo "Please execute \"composer install\" from the command line to install the required dependencies\n";
+
+    echo sprintf($template, 'Fehler');
+    echo "Bitte führen Sie zuerst \"composer install\" aus um alle benötigten Abhängigkeiten zu installieren.\n";
     return;
 }
 
-$classLoader = require_once __DIR__ . '/vendor/autoload.php';
+$classLoader = require __DIR__ . '/vendor/autoload.php';
 
-add_action('plugins_loaded', static function () {
-});
+add_action(
+    'plugins_loaded',
+    static function () {
+
+    }
+);
