@@ -2,6 +2,8 @@
 
 namespace Wordpress\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 /**
  * Plugin Name:       Wordpress Dependency Injection
  * Description:       WordPress Plugin that implements Symfony Dependency Injection Component
@@ -34,11 +36,20 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php') || !is_readable(__DIR__ . '/v
     return;
 }
 
-$classLoader = require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 add_action(
     'plugins_loaded',
     static function () {
+        $plugin = new Plugin(
+            new ContainerBuilder(),
+            isset($_SERVER['WORDPRESS_ENV']) ? sanitize_text_field($_SERVER['WORDPRESS_ENV']) : 'test'
+        );
 
+        try {
+            $plugin->build();
+        } catch (\Exception $exception) {
+            dd($exception);
+        }
     }
 );
