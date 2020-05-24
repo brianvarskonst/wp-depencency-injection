@@ -2,11 +2,13 @@
 
 namespace Wordpress\DependencyInjection\Adapter\Filesystem\Exception;
 
-class DuplicateFilesystemFactoryException extends \Exception
+use Wordpress\DependencyInjection\Exception\PluginException;
+
+class DuplicateFilesystemFactoryException extends PluginException
 {
     public function __construct(string $type)
     {
-        parent::__construct("The type of factory {$type} must be unique.");
+        parent::__construct('The type of factory "{{ type }}" must be unique.', ['type' => $type]);
     }
 
     public function getErrorCode(): string
