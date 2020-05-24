@@ -1,5 +1,3 @@
-# Wordpress Dependency Injection Plugin
+# WordPress Dependency Injection Plugin
 
----
-
-### Status: Early Development
+### :bulb: Status: Early Development
