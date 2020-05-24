@@ -42,14 +42,17 @@ add_action(
     'plugins_loaded',
     static function () {
         $plugin = new Plugin(
-            new ContainerBuilder(),
             isset($_SERVER['WORDPRESS_ENV']) ? sanitize_text_field($_SERVER['WORDPRESS_ENV']) : 'test'
         );
 
+        $containerBuilder = new ContainerBuilder();
+
         try {
-            $plugin->build();
+            $plugin->build($containerBuilder);
         } catch (\Exception $exception) {
             dd($exception);
         }
+
+        dd($containerBuilder);
     }
 );

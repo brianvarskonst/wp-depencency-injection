@@ -3,6 +3,7 @@
 namespace Wordpress\DependencyInjection\Bundle;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
 /**
@@ -25,7 +26,7 @@ interface BundleInterface extends ContainerAwareInterface
      *
      * It is only ever called once when the cache is empty.
      */
-    public function build(): void;
+    public function build(ContainerBuilder $containerBuilder): void;
 
     /**
      * Returns the container extension that should be implicitly loaded.

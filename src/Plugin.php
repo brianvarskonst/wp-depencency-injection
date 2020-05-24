@@ -19,12 +19,7 @@ use Wordpress\DependencyInjection\DependencyInjection\PluginExtension;
 
 class Plugin extends Bundle
 {
-    private const CONFIG_EXTS = '';
-
-    /**
-     * @var ContainerBuilder
-     */
-    private ContainerBuilder $containerBuilder;
+    private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
     /**
      * @var string
@@ -34,14 +29,9 @@ class Plugin extends Bundle
     /**
      * Plugin constructor.
      *
-     * @param ContainerBuilder $containerBuilder
      * @param string $env
      */
-    public function __construct(
-        ContainerBuilder $containerBuilder,
-        string $env
-    ) {
-        $this->containerBuilder = $containerBuilder;
+    public function __construct(string $env) {
         $this->env = $env;
     }
 
@@ -50,21 +40,21 @@ class Plugin extends Bundle
         return new PluginExtension();
     }
 
-    public function build(): void
+    public function build(ContainerBuilder $containerBuilder): void
     {
         $this->buildConfiguration(
-            $this->containerBuilder,
+            $containerBuilder,
             $this->env
         );
 
         $loader = new XmlFileLoader(
-            $this->containerBuilder,
+            $containerBuilder,
             new FileLocator(__DIR__ . '/DependencyInjection/')
         );
         $loader->load('services.xml');
         $loader->load('filesystem.xml');
 
-        parent::build($this->containerBuilder);
+        parent::build($containerBuilder);
     }
 
     public function buildConfiguration(ContainerBuilder $containerBuilder, $environment): void
@@ -84,7 +74,9 @@ class Plugin extends Bundle
         $configLoader = new DelegatingLoader($resolver);
         $configDirectory = $this->getPath() . '/Resources/config';
 
-        $configLoader->load($configDirectory . '/{packages}/*' . self::CONFIG_EXTS, 'glob');
-        $configLoader->load($configDirectory . '/{packages}/' . $environment . '/*' . self::CONFIG_EXTS, 'glob');
+        if (is_readable("{$configDirectory}/packages/")) {
+            $configLoader->load("{$configDirectory}/{packages}/*" . self::CONFIG_EXTS, 'glob');
+            $configLoader->load("{$configDirectory}/{packages}/{$environment}/*" . self::CONFIG_EXTS, 'glob');
+        }
     }
 }

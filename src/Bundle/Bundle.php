@@ -4,6 +4,7 @@ namespace Wordpress\DependencyInjection\Bundle;
 
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
 abstract class Bundle implements BundleInterface
@@ -35,7 +36,7 @@ abstract class Bundle implements BundleInterface
      * This method can be overridden to register compilation passes,
      * other extensions, ...
      */
-    public function build(): void
+    public function build(ContainerBuilder $containerBuilder): void
     {
     }
 
